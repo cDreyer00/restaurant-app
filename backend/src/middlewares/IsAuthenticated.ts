@@ -6,11 +6,7 @@ interface PayLoad {
 
 }
 
-export function IsAuthentticated(
-   req: Request,
-   res: Response,
-   next: NextFunction
-) {
+export function IsAuthentticated(req: Request, res: Response, next: NextFunction) {
    // receber e verificar token 
    const authToken = req.headers.authorization;
 
@@ -25,6 +21,9 @@ export function IsAuthentticated(
       // validar token
       const { sub } = verify(token, process.env.JWT_SECRET) as PayLoad
 
+      // pegar id do token e colocar em uma variavel do request
+      req.user_id = sub;
+      
       // prosseguir 
       return next();
 
