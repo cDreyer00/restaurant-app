@@ -10,15 +10,22 @@ import { Button } from "../components/src/button"
 
 import { AuthContext } from "../contexts/AuthContext"
 
-export default function Home() {
+export default function Login() {
    const { signIn } = useContext(AuthContext);
    const [email, setEmail] = useState("");
    const [password, setPassword] = useState("");
 
-   const [loading, setLoading] = useState("");
+   const [loading, setLoading] = useState(false);
 
    async function handleLogin(event: FormEvent) {
       event.preventDefault();
+
+      if(email == "" || password=== ""){
+         alert("Preencha os dados")
+         return;
+      }
+
+      setLoading(true);
 
       let data = {
          email,
@@ -26,6 +33,7 @@ export default function Home() {
       }
 
       await signIn(data)
+      setLoading(false);
    }
 
    return (
@@ -41,7 +49,7 @@ export default function Home() {
                   <Input placeholder="Email" type="text" value={email} onChange={(e) => setEmail(e.target.value)}/>
                   <Input placeholder="Senha" type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
 
-                  <Button type="submit" loading={false}>Acessar</Button>
+                  <Button type="submit" loading={loading}>Acessar</Button>
                </form>
 
                <Link className={styles.text} href="/signup">

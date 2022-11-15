@@ -1,12 +1,14 @@
 import { createContext, ReactNode, useState } from "react";
-import {destroyCookie} from "nookies"
+import { destroyCookie, setCookie, parseCookies } from "nookies"
+import { api } from "../services/apiClient";
 import Router from "next/router"
 
 type AuthContextData = {
    user: UserProps;
    isAuthenticated: boolean;
    signIn: (credentials: SingInProps) => Promise<void>
-   singOut: () => void;
+   signUp: (credentials: SingUpProps) => Promise<void>;
+   signOut: () => void;
 }
 
 type UserProps = {
@@ -20,6 +22,11 @@ type SingInProps = {
    password: string;
 }
 
+type SingUpProps = {
+   name: string;
+   email: string;
+   password: string;
+}
 
 type AuthProviderProps = {
    children: ReactNode;
@@ -27,11 +34,11 @@ type AuthProviderProps = {
 
 export const AuthContext = createContext({} as AuthContextData)
 
-export function singOut(){
-   try{
+export function signOut() {
+   try {
       destroyCookie(undefined, "@nextauth.token")
       Router.push("/")
-   }catch{
+   } catch {
       console.log("erro ao deslogar")
    }
 }
@@ -42,12 +49,56 @@ export function AuthProvider({ children }: AuthProviderProps) {
    const isAuthenticated = !!user;
 
    async function signIn({ email, password }: SingInProps) {
-      console.log("Dados para logar", email)
-      console.log("senha", password)
+
+      try {
+         const response = await api.post("/session", {
+            email,
+            password
+         })
+
+         const { id, name, token } = response.data
+
+         setCookie(undefined, "@nextauth.token", token, {
+            maxAge: 60 * 60 * 24 * 30, // expire em 1 mes
+            path: "/" // caminhos que terão acesso ao cookie
+         });
+
+         setUser({
+            id,
+            name,
+            email,
+         })
+
+         // passar o token para as proximas requisições
+         api.defaults.headers["Authorization"] = `Bearer ${token}`
+
+         // redirecionar user para "/dashboard" ao logar
+         Router.push("/dashboard");
+
+      } catch (err) {
+         console.log("erro ", err)
+      }
+   }
+
+
+   async function signUp({ name, email, password }: SingUpProps) {
+
+      try {
+         const response = await api.post("/users", {
+            name,
+            email,
+            password
+         })
+
+         console.log("Cadastrado com Sucesso");
+         Router.push("/");
+      } catch (err) {
+         console.log("Erro ao fazer cadastro ", err);
+      }
    }
 
    return (
-      <AuthContext.Provider value={{ user, isAuthenticated, signIn, singOut }}>
+      <AuthContext.Provider value={{ user, isAuthenticated, signIn, signUp, signOut }}>
          {children}
       </AuthContext.Provider>
    )
