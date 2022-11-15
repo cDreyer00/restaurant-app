@@ -1,4 +1,48 @@
-.container{
-   color: red;
+.containerCenter {
+   min-height: 100vh;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   text-align: center;
+   align-items: center;
 }
 
+.logo {
+   transform: scale(1.3);
+}
+
+.login {
+   margin-top: 2rem;
+   width: 600px;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   padding: 2rem 1.5rem;
+
+   form {
+      width: 90%;
+      display: flex;
+      flex-direction: column;
+   }
+
+   form button {
+      height: 40px;
+      font-size: 1.2rem;
+   }
+}
+
+.text {
+   margin-top: 1rem;
+   color: var(--white);
+   cursor: pointer;
+}
+
+@media (max-width: 700px){
+   .login{
+      width: 90%;
+   }
+   .logo{
+      transform: scale(100%);
+   }
+}
