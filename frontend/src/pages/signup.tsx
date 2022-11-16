@@ -4,6 +4,7 @@ import Head from "next/head"
 import Image from "next/image"
 import Link from "next/link"
 import { AuthContext } from "../contexts/AuthContext"
+import { toast } from "react-toastify"
 
 
 import logo from "../../public/logo.svg"
@@ -24,7 +25,7 @@ export default function Singup() {
       event.preventDefault();
 
       if (name === "" || email === "" || password === "") {
-         alert("preencha todos os campos")
+         toast.error("Preencha todos os campos")
          return;
       }
 

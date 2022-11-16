@@ -9,6 +9,8 @@ import { Input } from "../components/src/Input"
 import { Button } from "../components/src/button"
 
 import { AuthContext } from "../contexts/AuthContext"
+import { toast } from "react-toastify"
+import { canSSRGuest } from "../utils/canSSRGuest"
 
 export default function Login() {
    const { signIn } = useContext(AuthContext);
@@ -20,8 +22,8 @@ export default function Login() {
    async function handleLogin(event: FormEvent) {
       event.preventDefault();
 
-      if(email == "" || password=== ""){
-         alert("Preencha os dados")
+      if (email == "" || password === "") {
+         toast.error("Preencha os dados")
          return;
       }
 
@@ -46,8 +48,8 @@ export default function Login() {
 
             <div className={styles.login}>
                <form onSubmit={handleLogin}>
-                  <Input placeholder="Email" type="text" value={email} onChange={(e) => setEmail(e.target.value)}/>
-                  <Input placeholder="Senha" type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                  <Input placeholder="Email" type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
+                  <Input placeholder="Senha" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
 
                   <Button type="submit" loading={loading}>Acessar</Button>
                </form>
@@ -60,3 +62,12 @@ export default function Login() {
       </>
    )
 }
+
+
+export const getServerSideProps = canSSRGuest(async (ctx) => {   
+
+   return {
+      props: {}
+   }
+
+})
