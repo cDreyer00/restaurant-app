@@ -1,3 +1,4 @@
+// --- INPUT
 .input {
    margin-bottom: 1rem;
    height: 40px;
@@ -13,6 +14,7 @@
    color: rgba(255, 255, 255, 0.8);
 }
 
+// --- BUTTON
 
 .button {
    max-width: 600px;
@@ -48,5 +50,60 @@
 
    to {
       transform: rotate(360deg);
+   }
+}
+
+
+// --- HEADER
+
+.headerContainer {
+   height: 5rem;
+}
+
+.headerContent {
+   max-width: 1120px;
+   height: 5rem;
+   margin: 0 auto;
+   padding: 0 2rem;
+
+   display: flex;
+   justify-content: space-between;
+
+   img {
+      width: 190px;
+      height: 60px;
+   }
+
+   nav {
+      display: flex;
+      align-items: center;
+
+
+      a {
+         color: var(--white);
+         padding: 0 0.5rem;
+         display: inline-block;
+         position: relative;
+
+         transition: color 0.3s;
+
+         &+a {
+            margin-left: 2rem;
+         }
+
+         &:hover {
+            color: var(--red-900);
+         }
+      }
+
+      button{
+         margin-left: 2rem;
+         background: transparent;
+         border: 0;
+         transition: transform 0.3s;
+         &:hover{
+            transform: scale(1.2);
+         }
+      }
    }
 }
