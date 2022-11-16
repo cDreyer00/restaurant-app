@@ -9,7 +9,7 @@ import { toast } from "react-toastify"
 
 import logo from "../../public/logo.svg"
 import { Input } from "../components/src/Input"
-import { Button } from "../components/src/button"
+import { Button } from "../components/src/Button"
 
 export default function Singup() {
 

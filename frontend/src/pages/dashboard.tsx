@@ -1,7 +1,7 @@
 import { canSSRAuth } from "../utils/canSSRAuth"
 import Head from "next/head"
 
-import { Header } from "../components/src/header"
+import { Header } from "../components/src/Header"
 
 export default function Dashboard() {
    return (

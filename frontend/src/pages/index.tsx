@@ -6,7 +6,7 @@ import Link from "next/link"
 
 import logo from "../../public/logo.svg"
 import { Input } from "../components/src/Input"
-import { Button } from "../components/src/button"
+import { Button } from "../components/src/Button"
 
 import { AuthContext } from "../contexts/AuthContext"
 import { toast } from "react-toastify"
