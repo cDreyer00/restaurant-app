@@ -5,6 +5,7 @@ import { AuthTokenError } from "./errors/AuthTokenError";
 import { signOut } from "../contexts/AuthContext";
 
 export function setupAPIClient(ctx = undefined) {
+   console.log("setup");
    let cookies = parseCookies(ctx)
 
    const api = axios.create({
