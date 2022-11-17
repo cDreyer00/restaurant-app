@@ -11,7 +11,7 @@ import { api } from "../services/apiClient"
 import { toast } from "react-toastify"
 
 
-export type ProductRequest = {
+type ProductRequest = {
    id: string
    name: string;
    price: string;
