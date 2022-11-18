@@ -43,20 +43,20 @@ export default function Dashboard({ ordersList }) {
       Router.reload();
    }
 
-   function handleCloseOrderDetails(){
+   function handleCloseOrderDetails() {
       setModalVisible(false);
    }
 
    async function handleOrderDetails(id: string) {
       const apiClient = setupAPIClient();
       const response = await apiClient.get("/order/detail", {
-         params:{
+         params: {
             order_id: id,
          }
       });
 
       setModalItem(response.data);
-      setModalVisible(true);
+      setModalVisible(true);      
    }
 
    Modal.setAppElement("#__next");
@@ -83,7 +83,7 @@ export default function Dashboard({ ordersList }) {
                         <section className={styles.orderItem} key={item.id}>
                            <button onClick={() => handleOrderDetails(item.id)}>
                               <div className={styles.tag}></div>
-                              <span>Mesa {item.table}</span>
+                              <span>Mesa <strong>{item.table}</strong></span>
                            </button>
                         </section>
                      )
@@ -93,8 +93,12 @@ export default function Dashboard({ ordersList }) {
             </div>
          </div>
 
-         {modalVisible &&(
-            <ModalOrder/>
+         {modalVisible && (
+            <ModalOrder
+               isOpen={modalVisible}
+               onRequestClose={handleCloseOrderDetails}
+               items={modalItem}
+            />
          )}
       </>
    )
