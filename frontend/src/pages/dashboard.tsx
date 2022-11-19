@@ -4,12 +4,14 @@ import Router from "next/router"
 import { canSSRAuth } from "../utils/canSSRAuth"
 import Head from "next/head"
 
-import { Header } from "../components/src/Header"
+import { Header } from "../components/src/header"
 import { setupAPIClient } from "../services/api"
 import { FiRefreshCcw } from "react-icons/fi"
 import { ModalOrder } from "../components/src/ModalOrder"
 
 import Modal from "react-modal"
+import { toast } from "react-toastify"
+import { send } from "process"
 
 
 export type OrderItemProps = {
@@ -56,7 +58,24 @@ export default function Dashboard({ ordersList }) {
       });
 
       setModalItem(response.data);
-      setModalVisible(true);      
+      setModalVisible(true);
+   }
+
+
+   async function handleCompleteOrder(id: string) {
+      const api = setupAPIClient();
+      try {
+         await api.put("/order/complete", {
+            order_id: id
+         })         
+
+         setModalVisible(false);
+         toast.success("Pedido Concluido");
+         handleUpdate();
+      } catch (err) {
+         console.log(err)
+         toast.error("não foi possivel concluir o pedido, atualize a pagina e tente novamente");
+      }
    }
 
    Modal.setAppElement("#__next");
@@ -98,6 +117,7 @@ export default function Dashboard({ ordersList }) {
                isOpen={modalVisible}
                onRequestClose={handleCloseOrderDetails}
                items={modalItem}
+               handleCompleteOrder={handleCompleteOrder}
             />
          )}
       </>
