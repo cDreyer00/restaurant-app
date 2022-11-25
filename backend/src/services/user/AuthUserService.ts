@@ -1,4 +1,3 @@
-import { prisma } from "@prisma/client";
 import prismaClient from "../../prisma";
 import { compare } from "bcryptjs"
 import { sign } from "jsonwebtoken"
@@ -10,7 +9,7 @@ interface AuthRequest {
 }
 
 
-class AuthUserService {
+export class AuthUserService {
    async execute({ email, password }: AuthRequest) {
 
       // verificar se email existe
@@ -51,5 +50,3 @@ class AuthUserService {
       }
    }
 }
-
-export { AuthUserService };
